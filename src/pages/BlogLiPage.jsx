@@ -1,53 +1,40 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { graphClient } from '../library/graphClient';
-import { allBlogsQuery } from '../queries/allBlog';
+import { graphClient } from "../library/graphClient";
+import request from "graphql-request";
+import { useGraphQuery } from "../hooks/usequerry";
+import { allBlog } from "../queries/allBlog";
+import { Grid, Typography } from "@mui/material";
 
-export function BlogLipage() {
-    const [blogs, setBlogs] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export function BlogLiPage() {
+     /* const [blogs, setBlogs] = useState(null)  */
 
-    useEffect(() => {
-        let state = true
-
-        const fetchBlogs = async () => {
-            try {
-                const data = await graphClient.request(allBlogsQuery);
-                if (state) setBlogs(data.blogs ?? []);
-
-            } catch (error) {
-                if (state) setError(error.message || "Der var desværre en fejl")
-            } finally {
-                if (state) setLoading(false)
-            }
-}
-        fetchBlogs()
-        return () => {
-            state = false
-        }
-    }, [])
-
-    if (loading) return <p className="p-6">Blogindlæg kommer frem</p>
-    if (error) return <p className="p-6 text-red-400"> Fejl kommer {error}</p>
+    const { data, error, isLoading } = useGraphQuery(allBlog)
+    console.log(data);
 
     return (
-        <main className="min-h-screen bg-darkgray-50 9'p-6" >
-        <h1 className="mb-8 text-2xl font-bold">Blog</h1>
-        <section className= "grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {blogs.map((blog) => (
-            <article key={blog.id} clasName="rounded-xl bg-white p-5 shadow ">
-                {blog.image?.url && (
-                    <img src={blog.image.url} alt={blog.title} 
-                    className="mb-4 h-40 w-full rounded object-cover"
+        <div>
+           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 12, sm: 6, md: 4 }}>
 
-                    />
-                )}
-                <h2></h2>
-            </article>
-        </section>
-            
-            </main>
+            {data?.eagles?.map((blog) => (
+                <Grid item xs={12} sm={6} md={4} key={blog.id}>
+                    <div key={blog.id}>
+        <h2>{blog.header}</h2>
+        <p>{blog.indholdTekst}</p>
+        <p>{blog.content}</p>
+        <p>{blog.datoerTidOgBilleder}</p>
+        <img src={blog.image?.url} alt={blog.header} />
+        <p>Author: {blog.footer}</p>
+    </div>
+                </Grid>
+            ))}
+           </Grid>
+    
+
+        </div>
     )
+}
+    
+
+
 
 

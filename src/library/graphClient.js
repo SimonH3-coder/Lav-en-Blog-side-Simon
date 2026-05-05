@@ -1,10 +1,3 @@
-import { GraphClient} from graphql-request
+import { GraphQLClient } from "graphql-request"
 
-const endpoint = import.meta.env.VITE.HYGRAPH_ENDPOINT
-
-
-export const graphClient = new GraphClient(endpoint, {
-    headers: {
-        'Content-Type': 'application/json',
-    }
-})
+export const graphClient = new GraphQLClient("https://eu-west-2.cdn.hygraph.com/content/cmolsufkb009b07w1sc2b5n3s/master")

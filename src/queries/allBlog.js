@@ -5,33 +5,32 @@
 import {gql} from "graphql-request";
 
 export const allBlog = gql`
-    query AllBlogs {
-    blogs{
+    query Eagles {
+    eagles {
     id
-        title
+    
+        header
+        indholdTekst
         slug
         content
-        }
-        Image {
-        url}
-        author {
-        }
+        datoerTidOgBilleder
+        image {url}
+        footer 
+}
 }
         `;
 
 export const blogBySlugQQuery = gql`
-    query BlogBySlug($slug: String!) {
-    blog(where: {slug: $slug}) {
-    id
-        title
+    query Eagles($slug: String!) {
+    eagles(where: {slug: $slug}) {
+        id
+
+        header
+        indholdTekst
         slug
         content
-        }
-        Image {
-        url}
-        author
-        name {
-        }
-}
+        datoerTidOgBilleder: 
+        image {url}
+        footer 
 }
         `;
