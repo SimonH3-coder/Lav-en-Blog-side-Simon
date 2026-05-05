@@ -3,7 +3,8 @@ import { graphClient } from "../library/graphClient";
 import request from "graphql-request";
 import { useGraphQuery } from "../hooks/usequerry";
 import { allBlog } from "../queries/allBlog";
-import { Grid, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 export function BlogLiPage() {
      /* const [blogs, setBlogs] = useState(null)  */
