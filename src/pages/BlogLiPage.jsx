@@ -49,7 +49,7 @@ export function BlogLiPage() {
             <Container maxWidth="lg">
                 <Stack spacing={2} sx={{ mb: 5}}>
                 <Chip label="Blog" color="primary" sx={{ width: "fit-content" }} />
-                <Typography variant="h3" compoent="h1" fontWeight={800}>
+                <Typography variant="h3" component="h1" fontWeight={800}>
                     Seneste faktaer om ørne 
                 </Typography>
                 <Typography variant="body1" color="text.secondary" maxWidth={700}>
