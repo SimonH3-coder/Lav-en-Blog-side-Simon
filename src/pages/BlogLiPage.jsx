@@ -1,4 +1,5 @@
 
+import { useState} from "react"
 import { useGraphQuery } from "../hooks/usequerry";
 import { allBlog } from "../queries/allBlog";
 import Box from "@mui/material/Box";
@@ -13,15 +14,19 @@ import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
 
 
 
 
 export function BlogLiPage() {
-     
-
+    const [QuerySearch, setQuerySearch] = useState("");
     const { data, error, isLoading } = useGraphQuery(allBlog)
   const blogs = data?.eagles ?? [];
+
+  const filteredBlogs = blogs.filter(blog =>
+    blog.header.toLowerCase().includes(QuerySearch.toLowerCase())
+  );
 
     if (isLoading) {
         return (
@@ -55,10 +60,23 @@ export function BlogLiPage() {
                 <Typography variant="body1" color="text.secondary" maxWidth={700}>
                     Oversigt over sjove ting om ørne med billeder og tekst
                 </Typography>
-
                 </Stack>
+
+                <TextField
+                fullWidth
+                placeholder= "Søg efter blog og faktaer om ørne"
+                value={QuerySearch}
+                onChange={(e) => setQuerySearch(e.target.value)}
+                sx={{ mb: 4}}
+                variant="outlined"
+                />
+                {filteredBlogs.length === 0 ? (
+                    <Alert severity="information">Der blev ikke fundet nogen bloks med ørne: "{QuerySearch}"
+                    </Alert>
+                ) : (
+                
                 <Grid container spacing={3}>
-                    {blogs.map((blog) => (
+                    {filteredBlogs.map((blog) => (
                         <Grid item xs={12} sm={6} md={4} key={blog.id}>
                             <Card
                             elevation={4}
@@ -108,6 +126,7 @@ export function BlogLiPage() {
                 </Grid>
                     ))}
                 </Grid>
+                )}
             </Container>
 
 
